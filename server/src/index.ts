@@ -1,10 +1,13 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
+import {ApolloServer} from 'apollo-server-express';
+import { typeDefs, resolvers } from './graphql';
+
 const app = express();
 const port = 9000;
 
-const text = "Hello World"
+const server = new ApolloServer({typeDefs, resolvers});
+server.applyMiddleware({app, path: '/api'});
 
-app.get('/', (_req: Request, res: Response) => res.send(text));
 app.listen(port);
 
 console.log('Server start')
