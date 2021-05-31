@@ -6,6 +6,7 @@ import { Database, Listing } from '../../../lib/types';
 export const listingResolvers: IResolvers = {
     Query: {
         listings: async (_root: undefined, _args: undefined, {db}: { db:Database}): Promise<Listing[]> => {
+            
             return await db.listings.find({}).toArray()
         }
     },
