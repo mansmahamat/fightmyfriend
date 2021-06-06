@@ -17,7 +17,7 @@ const mount = async (app: Application) => {
 
     server.applyMiddleware({app, path: '/api'});
 
-    app.listen(port);
+    app.listen(process.env.PORT);
 
     console.log('Server start')
 
