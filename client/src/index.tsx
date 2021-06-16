@@ -2,7 +2,7 @@ import { render } from "react-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import reportWebVitals from "./reportWebVitals";
-import { Listings, Home, Listing, NotFound, User, Host } from "./sections/index";
+import { Listings, Home, Listing, NotFound, User, Host, Login } from "./sections/index";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './styles/tailwind.css';
 
@@ -18,6 +18,7 @@ const App = () => {
         <Route exact path="/host" component={Host} />
         <Route exact path="/club/:id" component={Listing} />
         <Route exact path="/clubs/:location?" component={Listings} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/user/:id" component={User} />
         <Route component={NotFound} />
       </Switch>

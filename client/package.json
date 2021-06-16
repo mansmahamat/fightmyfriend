@@ -29,8 +29,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:9000/api schema.json",
-    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.tsx --target=typescript"
+    "codegen:schema": "apollo schema:download --endpoint=http://localhost:9000/api schema.json",
+    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.ts --globalTypesFiles=./src/lib/graphql/globalTypes.ts --target=typescript"
   },
   "eslintConfig": {
     "extends": [
