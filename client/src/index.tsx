@@ -4,13 +4,24 @@ import { ApolloProvider } from "react-apollo";
 import reportWebVitals from "./reportWebVitals";
 import { Listings, Home, Listing, NotFound, User, Host, Login } from "./sections/index";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import { Viewer } from './lib/types'
 import './styles/tailwind.css';
+import { useState } from "react";
 
 const client = new ApolloClient({
   uri: "http://localhost:9000/api",
 });
 
+const initialViewer: Viewer = {
+    id:  null,
+    avatar:  null,
+    token:  null,
+    hasWallet:  null,
+    didRequest: false
+}
+
 const App = () => {
+  const [viewer, setViewer] = useState<Viewer>(initialViewer)
   return (
     <Router>
       <Switch>
