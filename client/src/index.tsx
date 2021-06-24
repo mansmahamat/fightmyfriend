@@ -1,5 +1,4 @@
 import { render } from 'react-dom';
-import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import reportWebVitals from './reportWebVitals';
@@ -11,11 +10,13 @@ import {
   User,
   Host,
   Login,
-  Header
+  Header,
+  Footer
 } from './sections/index';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Viewer } from './lib/types';
 import './styles/tailwind.css';
+import './styles/index.css'
 import { ToastProvider } from 'react-toast-notifications';
 import { useState } from 'react';
 
@@ -50,13 +51,14 @@ const App = () => {
         <Route exact path="/user/:id" component={User} />
         <Route component={NotFound} />
       </Switch>
+      <Footer />
     </Router>
   );
 };
 
 render(
   <ApolloProvider client={client}>
-    <ToastProvider>
+    <ToastProvider placement="bottom-right">
       <App />
     </ToastProvider>
   </ApolloProvider>,
