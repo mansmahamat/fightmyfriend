@@ -1,7 +1,11 @@
 import React from 'react'
 import google from '../assets/google.png'
 
-export default function ButtonLogin() {
+interface Props {
+    handleAutorize: () => void;
+}
+
+export default function ButtonLogin({handleAutorize}:Props) {
     return (
         <div className="flex justify-center items-center mt-8 flex-col">
     
