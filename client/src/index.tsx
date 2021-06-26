@@ -37,7 +37,7 @@ const App = () => {
   console.log(viewer);
   return (
     <Router>
-      <Header />
+      <Header setViewer={setViewer} viewer={viewer} />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/host" component={Host} />

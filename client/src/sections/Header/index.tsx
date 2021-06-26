@@ -1,10 +1,47 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { LOG_OUT } from '../../lib/graphql/mutations/';
+import { LogOut as LogOutData } from '../../lib/graphql/mutations/LogOut/__generated__/LogOut';
+import { useMutation } from 'react-apollo';
+import { useToasts } from 'react-toast-notifications';
 import Logo from '../../assets/img/fight.png';
+import { Viewer } from '../../lib/types';
 import { MenuItem } from './components/MenuItem';
 
-export const Header = () => {
+interface Props {
+  viewer: Viewer;
+  setViewer: (viewer: Viewer) => void;
+}
+
+export const Header = ({ viewer, setViewer }: Props) => {
   const [navbarOpen, setNavbarOpen] = useState(false);
+
+  const { addToast } = useToasts();
+
+  const [logOut] = useMutation<LogOutData>(LOG_OUT, {
+    onCompleted: (data) => {
+      if (data && data.logOut) {
+        setViewer(data.logOut);
+        addToast("You've successfully log out !", { appearance: 'success' });
+      }
+    },
+    onError: (data) => {
+      addToast("You've successfully log out !", { appearance: 'warning' });
+    },
+  });
+
+  const handleLogOut = () => {
+    logOut();
+  };
+
+  const avatar =
+    viewer.id && viewer.avatar ? (
+      <img
+        className="inline object-cover w-12 h-12 mr-2 rounded-full"
+        src={viewer.avatar}
+        alt="Profile "
+      />
+    ) : null;
 
   return (
     <nav className="px-10 py-8 bg-yellow-500">
@@ -38,7 +75,7 @@ export const Header = () => {
         <ul className="hidden lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-10">
           <li>
             <Link className=" text-gray-50 hover:text-gray-200" to="/">
-              Home
+              Home pc
             </Link>
           </li>
           <li>
@@ -85,7 +122,7 @@ export const Header = () => {
               ></path>
             </svg>
           </button>
-          <MenuItem />
+          <MenuItem setViewer={setViewer} viewer={viewer} />
         </div>
       </div>
       <div
@@ -124,6 +161,7 @@ export const Header = () => {
             </button>
           </div>
           <div>
+            {avatar}
             <input
               className="inline-block px-4 py-3 text-sm text-gray-50 placeholder-gray-50 font-semibold bg-yellow-500 border border-transparent rounded-l"
               placeholder="Search"
@@ -131,20 +169,30 @@ export const Header = () => {
               data-form-type="other"
             />
             <ul>
+              {!viewer.id && !viewer.avatar ? (
+                <li className="mb-1">
+                  <Link
+                    className="block p-4 mt-6 text-sm font-semibold bg-green-400 text-gray-900 rounded"
+                    to="/login"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              ) : null}
               <li className="mb-1">
                 <Link
                   className="block p-4 text-sm font-semibold text-gray-900 hover:bg-gray-50 rounded"
                   to="/"
                 >
-                  Home
+                  Home mobile
                 </Link>
               </li>
               <li className="mb-1">
                 <Link
                   className="block p-4 text-sm font-semibold text-gray-900 hover:bg-gray-50 rounded"
-                  to="/host"
+                  to={`/user/${viewer.id}`}
                 >
-                  Host
+                  Profile
                 </Link>
               </li>
               <li className="mb-1">
@@ -163,6 +211,18 @@ export const Header = () => {
                   Link 3
                 </Link>
               </li>
+              <hr />
+              {viewer.id && viewer.avatar ? (
+                <li className="mb-1">
+                  <Link
+                    onClick={handleLogOut}
+                    className="block p-4 mt-6 text-sm font-semibold bg-red-400 text-gray-900 rounded"
+                    to="/login"
+                  >
+                    Log Out
+                  </Link>
+                </li>
+              ) : null}
             </ul>
           </div>
           <div className="mt-auto">
